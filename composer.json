@@ -1,5 +1,5 @@
 {
-    "name": "Chiliec/yii2-pager",
+    "name": "chiliec/yii2-pager",
     "description": "Pager for Yii2",
     "keywords": ["yii", "pager", "next link"],
     "type": "yii2-extension",
