@@ -1,0 +1,34 @@
+{
+    "name": "Chiliec/yii2-pager",
+    "description": "Pager for Yii2",
+    "keywords": ["yii", "pager", "next link"],
+    "type": "yii2-extension",
+    "license": "BSD-3-Clause",
+    "support": {
+        "issues": "https://github.com/Chiliec/yii2-pager/issues",
+        "source": "https://github.com/Chiliec/yii2-pager"
+    },
+    "authors": [
+        {
+            "name": "Vladimir Babin",
+            "email": "vovababin@gmail.com",
+			"homepage": "http://chiliec.ru"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "suggest": {
+        "yiisoft/yii2-bootstrap": "Optimized for using with Bootstrap extension"
+    },
+    "autoload": {
+        "psr-4": {
+            "Chiliec\\pager\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}
