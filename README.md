@@ -8,9 +8,7 @@ Usage
 
 ```php
 <?php
-use Chiliec\Pager;
-
-Pager::widget([
+    echo \Chiliec\pager\Pager::widget([
         'tableName' => $model->tableName(), // table name
         'id' => $model->id, // current primary key
         'primaryKey' => 'id', // name of primary key column
@@ -18,7 +16,8 @@ Pager::widget([
         'path' => 'story/view', // path for link
         'additionalСondition' => 'published = 1', // additional SQL-condition
         'cacheTime' => 3600, // time for cache results
-    ]); ?>
+    ]); 
+?>
 ```
 
 Installation
