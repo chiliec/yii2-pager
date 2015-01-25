@@ -105,14 +105,14 @@ class Pager extends Widget
                 <li class="previous">'
         . Html::a(
             '&larr; ' . $this->closetLinks['prev'][$this->title],
-            [$this->path, 'id' => $this->closetLinks['prev'][$this->primaryKey]],
+            [$this->path, $this->primaryKey => $this->closetLinks['prev'][$this->primaryKey]],
             ['class' => 'pull-left', 'rel' => 'prev']
         ) .
         '</li>
                 <li class="next">'
         . Html::a(
             $this->closetLinks['next'][$this->title] . ' &rarr;',
-            [$this->path, 'id' => $this->closetLinks['next'][$this->primaryKey]],
+            [$this->path, $this->primaryKey => $this->closetLinks['next'][$this->primaryKey]],
             ['class' => 'pull-right', 'rel' => 'next']
         ) .
         '</li>
