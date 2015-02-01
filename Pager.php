@@ -1,16 +1,17 @@
 <?php
-namespace Chiliec\pager;
+/**
+ * @link https://github.com/Chiliec/yii2-pager
+ * @author Vladimir Babin <vovababin@gmail.com>
+ * @license http://opensource.org/licenses/BSD-3-Clause
+ */
+
+namespace chiliec\pager;
 
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\base\InvalidConfigException;
 use Yii;
 
-/**
- * Class Pager
- * @package Chiliec\pager
- * @author  Vladimir Babin <vovababin@gmail.com>
- */
 class Pager extends Widget
 {
     /**
@@ -23,7 +24,7 @@ class Pager extends Widget
      * Значение текущего первичного ключа
      * @var int
      */
-    public $id;
+    public $currentId;
 
     /**
      * Имя столбца с первичным ключом
@@ -56,10 +57,30 @@ class Pager extends Widget
     public $path = 'action/view';
 
     /**
+     * @var array the HTML attributes for the nav parent element.
+     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
+     */
+    public $navOptions = [];
+
+    /**
+     * @var array the HTML attributes for the UL element. 'encode' => false will be added automatically.
+     */
+    public $listOptions = ['class' => 'pager'];
+
+    /**
+     * @var array the HTML attributes for previous link.
+     */
+    public $prevOptions = ['class' => 'pull-left', 'rel' => 'prev'];
+
+    /**
+     * @var array the HTML attributes for next link.
+     */
+    public $nextOptions = ['class' => 'pull-right', 'rel' => 'next'];
+
+    /**
      * @var array
      */
     protected $closetLinks;
-
 
     /**
      * @inheritdoc
@@ -70,11 +91,10 @@ class Pager extends Widget
             throw new InvalidConfigException('Table name is not configured!');
         }
         
-        $this->closetLinks = Yii::$app->cache->get($this->tableName . 'closestLinks' . $this->id);
-        
-        if ($this->closetLinks === false) {
+        $cacheKey = 'closestLinks' . $this->tableName . $this->currentId;
+        if (false === $this->closetLinks = Yii::$app->cache->get($cacheKey)) {
             $nextQuery = Yii::$app->db->createCommand(
-                "SELECT {$this->primaryKey},{$this->title} FROM {$this->tableName} WHERE {$this->primaryKey} > {$this->id} AND {$this->additionalСondition} LIMIT 1"
+                "SELECT {$this->primaryKey},{$this->title} FROM {$this->tableName} WHERE {$this->primaryKey} > {$this->currentId} AND {$this->additionalСondition} LIMIT 1"
             );
             if (($next = $nextQuery->queryOne()) === false) {
                 $next = Yii::$app->db->createCommand(
@@ -82,7 +102,7 @@ class Pager extends Widget
                 )->queryOne();
             }
             $prevQuery = Yii::$app->db->createCommand(
-                "SELECT {$this->primaryKey},{$this->title} FROM {$this->tableName} WHERE {$this->primaryKey} < {$this->id} AND {$this->additionalСondition} ORDER BY {$this->primaryKey} DESC LIMIT 1"
+                "SELECT {$this->primaryKey},{$this->title} FROM {$this->tableName} WHERE {$this->primaryKey} < {$this->currentId} AND {$this->additionalСondition} ORDER BY {$this->primaryKey} DESC LIMIT 1"
             );
             if (($prev = $prevQuery->queryOne()) === false) {
                 $prev = Yii::$app->db->createCommand(
@@ -90,7 +110,7 @@ class Pager extends Widget
                 )->queryOne();
             }
             $this->closetLinks = ['next' => $next, 'prev' => $prev];
-            Yii::$app->cache->set($this->tableName . 'closestLinks' . $this->id, $this->closetLinks, $this->cacheTime);
+            Yii::$app->cache->set($cacheKey, $this->closetLinks, $this->cacheTime);
         }
     }
 
@@ -99,24 +119,19 @@ class Pager extends Widget
      */
     public function run()
     {
-        return '
-        <nav>
-            <ul class="pager">
-                <li class="previous">'
-        . Html::a(
-            '&larr; ' . $this->closetLinks['prev'][$this->title],
-            [$this->path, $this->primaryKey => $this->closetLinks['prev'][$this->primaryKey]],
-            ['class' => 'pull-left', 'rel' => 'prev']
-        ) .
-        '</li>
-                <li class="next">'
-        . Html::a(
-            $this->closetLinks['next'][$this->title] . ' &rarr;',
-            [$this->path, $this->primaryKey => $this->closetLinks['next'][$this->primaryKey]],
-            ['class' => 'pull-right', 'rel' => 'next']
-        ) .
-        '</li>
-            </ul>
-        </nav>';
+        $this->listOptions = array_merge(['encode' => false], $this->listOptions);
+        $content  = Html::beginTag('nav', $this->navOptions);
+        $content .= Html::ul([
+            Html::a('&larr; ' . $this->closetLinks['prev'][$this->title],
+                [$this->path, $this->primaryKey => $this->closetLinks['prev'][$this->primaryKey]],
+                $this->prevOptions
+            ),
+            Html::a($this->closetLinks['next'][$this->title] . ' &rarr;',
+                [$this->path, $this->primaryKey => $this->closetLinks['next'][$this->primaryKey]],
+                $this->nextOptions
+            )
+        ], $this->listOptions);
+        $content .= Html::endTag('nav');
+        return $content;
     }
 }
