@@ -1,5 +1,7 @@
-Pager Widget for Yii 2 [![Latest Stable Version](https://poser.pugx.org/chiliec/yii2-pager/v/stable.svg)](https://packagist.org/packages/chiliec/yii2-pager) [![Total Downloads](https://poser.pugx.org/chiliec/yii2-pager/downloads.svg)](https://packagist.org/packages/chiliec/yii2-pager) [![Latest Unstable Version](https://poser.pugx.org/chiliec/yii2-pager/v/unstable.svg)](https://packagist.org/packages/chiliec/yii2-pager) [![License](https://poser.pugx.org/chiliec/yii2-pager/license.svg)](https://packagist.org/packages/chiliec/yii2-pager)
+Pager Widget for Yii 2 
 ======================
+
+[![Latest Stable Version](https://poser.pugx.org/chiliec/yii2-pager/v/stable.svg)](https://packagist.org/packages/chiliec/yii2-pager) [![Total Downloads](https://poser.pugx.org/chiliec/yii2-pager/downloads.svg)](https://packagist.org/packages/chiliec/yii2-pager) [![Latest Unstable Version](https://poser.pugx.org/chiliec/yii2-pager/v/unstable.svg)](https://packagist.org/packages/chiliec/yii2-pager) [![License](https://poser.pugx.org/chiliec/yii2-pager/license.svg)](https://packagist.org/packages/chiliec/yii2-pager)
 
 Quick previous and next links for simple pagination implementations with light markup and styles. It's great for simple sites like blogs or magazines. Based on [Bootstrap Pager](http://getbootstrap.com/components/#pagination-pager).
 
@@ -8,7 +10,7 @@ Usage
 
 ```php
 <?php
-    echo \Chiliec\pager\Pager::widget([
+    echo \chiliec\pager\Pager::widget([
         'tableName' => $model->tableName(),
         'currentId' => $model->id, // current primary key
         'path' => 'story/view', // path for link
@@ -33,13 +35,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist Chiliec/yii2-pager "~2.0"
+php composer.phar require --prefer-dist chiliec/yii2-pager "~2.0"
 ```
 
 or add
 
 ```
-"Chiliec/yii2-pager": "~2.0"
+"chiliec/yii2-pager": "~2.0"
 ```
 
 to the require section of your `composer.json` file.
