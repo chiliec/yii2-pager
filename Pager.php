@@ -90,6 +90,9 @@ class Pager extends Widget
         if ($this->tableName === null) {
             throw new InvalidConfigException('Table name is not configured!');
         }
+        if ($this->currentId === null) {
+            throw new InvalidConfigException('Current Id is not configured!');
+        }
         
         $cacheKey = 'closestLinks' . $this->tableName . $this->currentId;
         if (false === $this->closetLinks = Yii::$app->cache->get($cacheKey)) {
